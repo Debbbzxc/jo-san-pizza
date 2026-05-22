@@ -12,10 +12,10 @@ const API = '/api'
 function Navbar({ scrolled }) {
   const [open, setOpen] = useState(false)
   const links = [
-    { href: '#about',       label: 'About'       },
-    { href: '#menu',        label: 'Best Sellers' },
-    { href: '#location',    label: 'Location'     },
-    { href: '#social',      label: 'Social'       },
+    { href: '#about', label: 'About' },
+    { href: '#menu', label: 'Best Sellers' },
+    { href: '#location', label: 'Location' },
+    { href: '#social', label: 'Social' },
   ]
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-brand-dark/95 backdrop-blur shadow-lg' : 'bg-transparent'}`}>
@@ -50,12 +50,12 @@ function Navbar({ scrolled }) {
         <div className="md:hidden bg-brand-dark/98 px-6 pb-6">
           {links.map(l => (
             <a key={l.href} href={l.href} onClick={() => setOpen(false)}
-               className="block text-white/80 hover:text-brand-yellow py-3 border-b border-white/10 font-medium">
+              className="block text-white/80 hover:text-brand-yellow py-3 border-b border-white/10 font-medium">
               {l.label}
             </a>
           ))}
           <Link to="/menu" onClick={() => setOpen(false)}
-                className="block mt-4 btn-primary text-center">
+            className="block mt-4 btn-primary text-center">
             Full Menu
           </Link>
         </div>
@@ -87,7 +87,7 @@ function Hero() {
           <span className="text-brand-yellow italic">a Story</span>
         </h1>
         <p className="text-white/70 text-lg md:text-xl mb-10 max-w-xl mx-auto font-light">
-          Authentic Filipino-Chinese pizza crafted with love, served fresh from our kitchen to your table.
+          Pizza crafted with love, served fresh from our kitchen to your table.
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link to="/menu" className="btn-primary text-lg">
@@ -118,17 +118,17 @@ function About() {
               Where Filipino Heart Meets Italian Soul
             </h2>
             <p className="text-gray-600 leading-relaxed mb-5">
-              Jo San Pizza was born from a simple dream — to bring the warmth of family gatherings 
-              to every bite. Named after the Chinese phrase <em>"早晨" (Jo San)</em> meaning 
-              <strong> "Good Morning"</strong>, we believe every meal should feel like the start 
+              Jo San Pizza was born from a simple dream — to bring the warmth of family gatherings
+              to every bite. Named after the Chinese phrase <em>"早晨" (Jo San)</em> meaning
+              <strong> "Good Morning"</strong>, we believe every meal should feel like the start
               of something wonderful.
             </p>
             <p className="text-gray-600 leading-relaxed mb-5">
-              Nestled in the heart of Bambang, Nueva Vizcaya, our pizzas blend classic Italian 
+              Nestled in the heart of Bambang, Nueva Vizcaya, our pizzas blend classic Italian
               technique with local Filipino flavors — because good food speaks every language.
             </p>
             <p className="text-gray-600 leading-relaxed">
-              From our hand-stretched dough to our house-made sauces, every pizza is crafted 
+              From our hand-stretched dough to our house-made sauces, every pizza is crafted
               fresh to order. Come hungry. Leave happy.
             </p>
           </div>
@@ -137,8 +137,8 @@ function About() {
           <div className="grid grid-cols-2 gap-6">
             {[
               { icon: '🍕', value: '20+', label: 'Products' },
-              { icon: '⭐', value: '4.9', label: 'Average Rating' },
-              { icon: '👨‍🍳', value: '2+', label: 'Years of Craft' },
+              { icon: '⭐', value: '100%', label: 'Recommended' },
+              { icon: '👨‍🍳', value: '3+', label: 'Years of Craft' },
               { icon: '❤️', value: '1000+', label: 'Happy Customers' },
             ].map(s => (
               <div key={s.label} className="card p-6 text-center bg-white">
@@ -209,7 +209,7 @@ function BestSellers() {
                 <div className="relative overflow-hidden h-48">
                   {item.photo ? (
                     <img src={`/uploads/${item.photo}`} alt={item.name}
-                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-brand-orange/20 to-brand-red/20 flex items-center justify-center text-6xl">
                       🍕
@@ -290,23 +290,22 @@ function Location() {
             <h3 className="font-bold text-lg mb-2">Contact Us</h3>
             <p className="text-white/70 mb-2">For orders & inquiries</p>
             <a href="https://www.facebook.com/JoSanPizzaBambangBranch" target="_blank" rel="noreferrer"
-               className="text-brand-yellow hover:underline font-medium">
+              className="text-brand-yellow hover:underline font-medium">
               Message us on Facebook
             </a>
           </div>
         </div>
 
-        {/* Embedded map placeholder */}
-        <div className="mt-10 rounded-2xl overflow-hidden h-72 bg-white/10 flex items-center justify-center">
-          <div className="text-center text-white/40">
-            <MapPin size={48} className="mx-auto mb-3 opacity-30" />
-            <p className="text-sm">Bambang, Nueva Vizcaya</p>
-            <p className="text-xs mt-1 opacity-60">Tokyo Building, San Fernando Road, Calaocan</p>
-            <a href="https://maps.google.com/?q=Bambang+Nueva+Vizcaya" target="_blank" rel="noreferrer"
-               className="inline-block mt-4 text-brand-yellow text-sm hover:underline">
-              Open in Google Maps →
-            </a>
-          </div>
+        {/* Embedded map */}
+        <div className="mt-10 rounded-2xl overflow-hidden h-96 shadow-lg">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3827.710237085621!2d121.11006789999999!3d16.3887167!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x33905bcefe6fc337%3A0xe69ad142ffeca5ef!2sJo%20San%20Pizza!5e0!3m2!1sen!2sph!4v1779490042760!5m2!1sen!2sph"
+            className="w-full h-full border-0"
+            allowFullScreen=""
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Jo San Pizza Location"
+          ></iframe>
         </div>
       </div>
     </section>
@@ -322,7 +321,7 @@ function SocialMedia() {
           Stay Connected
         </h2>
         <p className="text-white/80 text-lg mb-10 max-w-xl mx-auto">
-          Get the latest promos, new menu items, and behind-the-scenes content. 
+          Get the latest promos, new menu items, and behind-the-scenes content.
           Follow us on Facebook and never miss a slice!
         </p>
         <a
