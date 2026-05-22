@@ -1,0 +1,41 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body {
+    @apply bg-brand-cream text-brand-dark font-sans;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-95;
+  }
+  .btn-outline {
+    @apply border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-white font-semibold px-6 py-3 rounded-full transition-all duration-200;
+  }
+  .section-title {
+    @apply font-display text-4xl md:text-5xl font-bold text-brand-dark;
+  }
+  .card {
+    @apply bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden;
+  }
+  .input {
+    @apply w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-red/50 focus:border-brand-red transition;
+  }
+  .label {
+    @apply block text-sm font-semibold text-gray-700 mb-1;
+  }
+}
+
+/* Hero diagonal clip */
+.hero-clip {
+  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: #fff8f0; }
+::-webkit-scrollbar-thumb { background: #D62B2B; border-radius: 3px; }
