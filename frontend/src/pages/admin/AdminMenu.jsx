@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
+import { UPLOADS_URL } from '../../config'
 import { Plus, Pencil, Trash2, Star, StarOff, X, ImagePlus, PlusCircle, Minus } from 'lucide-react'
 
 const EMPTY_FORM = {
@@ -55,7 +56,7 @@ export default function AdminMenu() {
       isAvailable: item.isAvailable,
       variations: item.variations || [],
     })
-    setPhotoPreview(item.photo ? `/uploads/${item.photo}` : null)
+    setPhotoPreview(item.photo ? `${UPLOADS_URL}/${item.photo}` : null)
     setPhotoFile(null)
     setShowModal(true)
   }
@@ -193,7 +194,7 @@ export default function AdminMenu() {
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded-xl overflow-hidden bg-gray-100 flex-shrink-0">
                           {item.photo ? (
-                            <img src={`/uploads/${item.photo}`} alt={item.name} className="w-full h-full object-cover" />
+                            <img src={`${UPLOADS_URL}/${item.photo}`} alt={item.name} className="w-full h-full object-cover" />
                           ) : (
                             <div className="w-full h-full flex items-center justify-center text-2xl">🍕</div>
                           )}

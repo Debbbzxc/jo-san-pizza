@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
+import { UPLOADS_URL } from '../config'
 import {
   MapPin, Phone, Clock, Facebook, ChevronDown,
   Pizza, Star, Menu, X, Instagram
@@ -208,7 +209,7 @@ function BestSellers() {
               <div key={item._id} className="card group">
                 <div className="relative overflow-hidden h-48">
                   {item.photo ? (
-                    <img src={`/uploads/${item.photo}`} alt={item.name}
+                    <img src={`${UPLOADS_URL}/${item.photo}`} alt={item.name}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-brand-orange/20 to-brand-red/20 flex items-center justify-center text-6xl">
