@@ -14,6 +14,10 @@
 
 ---
 
+<img width="1896" height="948" alt="Screenshot (192)" src="https://github.com/user-attachments/assets/33f2a5f4-3063-4a34-a00f-305b0cc5ab26" />
+
+---
+
 ## 📖 The Story Behind the Slice
 
 **Jo San Pizza** is an authentic Filipino-Chinese pizza restaurant located in the heart of Bambang, Nueva Vizcaya (Tokyo Building, San Fernando Road, Calaocan). 
