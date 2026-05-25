@@ -18,7 +18,7 @@
 
 ---
 
-## 📖 The Story Behind the Slice
+## The Story Behind the Slice
 
 **Jo San Pizza** is an authentic Filipino-Chinese pizza restaurant located in the heart of Bambang, Nueva Vizcaya (Tokyo Building, San Fernando Road, Calaocan). 
 
@@ -26,7 +26,7 @@ The name **"Jo San"** is inspired by the Cantonese Chinese phrase **"早晨" (Jo
 
 ---
 
-## ✨ Features
+## Features
 
 ### 🍽️ Customer Showcase (Frontend)
 - **Interactive Landing Page**: A responsive hero section with scrolling indicators, micro-animations, and animated brand graphics.
@@ -36,7 +36,7 @@ The name **"Jo San"** is inspired by the Cantonese Chinese phrase **"早晨" (Jo
 - **Comprehensive Digital Menu**: Full categorization of our menu items (Pizzas, Pastas, Sides, Drinks) with detailed descriptions.
 - **Contact & Map Integration**: Easy links to order via Facebook Messenger, check store hours, or locate the branch in Calaocan, Bambang.
 
-### 🔐 Administrative Management (Admin Portal)
+### Administrative Management (Admin Portal)
 - **Role-Based Authentication**: Secure admin and staff login.
 - **Menu Manager (Full CRUD)**:
   - Add, update, view, and delete items.
@@ -49,7 +49,7 @@ The name **"Jo San"** is inspired by the Cantonese Chinese phrase **"早晨" (Jo
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Technology | Purpose |
 | :--- | :--- | :--- |
