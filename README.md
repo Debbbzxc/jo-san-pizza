@@ -28,7 +28,7 @@ The name **"Jo San"** is inspired by the Cantonese Chinese phrase **"早晨" (Jo
 
 ## Features
 
-### 🍽️ Customer Showcase (Frontend)
+### Customer Showcase (Frontend)
 - **Interactive Landing Page**: A responsive hero section with scrolling indicators, micro-animations, and animated brand graphics.
 - **Story Telling**: A section sharing our history, combined with dynamic customer-engagement counters.
 - **Best Sellers Grid**: Displays the top 4 highly rated items, fetched dynamically from the database.
