@@ -62,3 +62,7 @@ The name **"Jo San"** is inspired by the Cantonese Chinese phrase **"早晨" (Jo
 | **Database** | [MongoDB](https://www.mongodb.com/) & [Mongoose ODM](https://mongoosejs.com/) | Flexible NoSQL document database and schema-based modeling |
 | **File Storage** | [Multer Middleware](https://github.com/expressjs/multer) | Server-side multipart/form-data upload for item photos |
 | **Security** | [JSON Web Tokens (JWT)](https://jwt.io/) & [bcryptjs](https://github.com/dcodeIO/bcrypt.js) | Session verification and strong password hashing |
+
+---
+
+🎓 *IPT2 Project*
