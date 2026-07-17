@@ -2,40 +2,99 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --color-primary: #D62B2B;
+  --color-secondary: #EA580C;
+  --color-accent: #F5C518;
+  --color-background: #FFF7ED;
+  --color-foreground: #0F172A;
+  --color-muted: #FDF4F0;
+  --color-border: #FCEAE1;
+}
+
 @layer base {
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
   body {
-    @apply bg-brand-cream text-brand-dark font-sans;
+    @apply bg-brand-cream text-brand-dark font-sans antialiased;
+  }
+  /* Accessible focus states */
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-red/50 ring-offset-2;
   }
 }
 
 @layer components {
   .btn-primary {
-    @apply bg-brand-red hover:bg-red-700 text-white font-semibold px-6 py-3 rounded-full transition-all duration-200 shadow-md hover:shadow-lg active:scale-95;
+    @apply bg-brand-red text-white font-semibold px-6 py-3 rounded-full shadow-md transition-all duration-300 hover:bg-brand-red/90 hover:shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer flex items-center justify-center gap-2;
   }
   .btn-outline {
-    @apply border-2 border-brand-red text-brand-red hover:bg-brand-red hover:text-white font-semibold px-6 py-3 rounded-full transition-all duration-200;
+    @apply border-2 border-brand-red text-brand-red font-semibold px-6 py-3 rounded-full bg-transparent transition-all duration-300 hover:bg-brand-red hover:text-white hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer flex items-center justify-center gap-2;
+  }
+  .btn-secondary {
+    @apply bg-brand-orange text-white font-semibold px-6 py-3 rounded-full shadow-sm transition-all duration-300 hover:bg-brand-orange/90 hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 active:scale-95 cursor-pointer flex items-center justify-center gap-2;
   }
   .section-title {
-    @apply font-display text-4xl md:text-5xl font-bold text-brand-dark;
+    @apply font-display text-4xl md:text-5xl lg:text-6xl font-bold text-brand-dark leading-tight tracking-tight;
+  }
+  .card-premium {
+    @apply bg-white rounded-3xl shadow-sm border border-brand-border/40 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300 overflow-hidden cursor-pointer;
   }
   .card {
-    @apply bg-white rounded-2xl shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden;
+    @apply bg-white rounded-2xl shadow-sm border border-brand-border/30 hover:shadow-md transition-all duration-200 overflow-hidden;
   }
   .input {
-    @apply w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-brand-red/50 focus:border-brand-red transition;
+    @apply w-full border border-gray-200 rounded-xl px-4 py-3 bg-white text-brand-dark placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-red/30 focus:border-brand-red transition duration-200 text-base;
   }
   .label {
-    @apply block text-sm font-semibold text-gray-700 mb-1;
+    @apply block text-sm font-semibold text-gray-700 mb-1.5;
   }
 }
 
 /* Hero diagonal clip */
 .hero-clip {
-  clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%);
+  clip-path: polygon(0 0, 100% 0, 100% 92%, 0 100%);
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: #fff8f0; }
-::-webkit-scrollbar-thumb { background: #D62B2B; border-radius: 3px; }
+@media (max-width: 768px) {
+  .hero-clip {
+    clip-path: polygon(0 0, 100% 0, 100% 96%, 0 100%);
+  }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #FFF7ED;
+}
+::-webkit-scrollbar-thumb {
+  background: #D62B2B;
+  border-radius: 9999px;
+  border: 2px solid #FFF7ED;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #EA580C;
+}
+
+/* Custom styles for animations */
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(3deg); }
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
