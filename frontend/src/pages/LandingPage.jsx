@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { UPLOADS_URL } from '../config'
+import { getImageUrl } from '../config'
 import {
   MapPin, Phone, Clock, Facebook, ChevronDown,
   Pizza, Star, Menu, X, Instagram, ChefHat, Heart, Award, Sparkles
@@ -318,7 +318,7 @@ function BestSellers() {
                 <div className="relative overflow-hidden h-52 bg-brand-muted">
                   {item.photo ? (
                     <img 
-                      src={`${UPLOADS_URL}/${item.photo}`} 
+                      src={getImageUrl(item.photo)} 
                       alt={item.name}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                     />

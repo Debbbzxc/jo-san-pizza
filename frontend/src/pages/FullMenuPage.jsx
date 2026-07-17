@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-import { UPLOADS_URL } from '../config'
+import { getImageUrl } from '../config'
 import { Search, ArrowLeft, Pizza, Star, Sparkles } from 'lucide-react'
 import logo from '../assets/logo.png'
 
@@ -150,7 +150,7 @@ export default function FullMenuPage() {
                   <div className="relative h-48 overflow-hidden bg-brand-muted">
                     {item.photo ? (
                       <img 
-                        src={`${UPLOADS_URL}/${item.photo}`} 
+                        src={getImageUrl(item.photo)} 
                         alt={item.name}
                         className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
                       />

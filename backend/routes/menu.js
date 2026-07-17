@@ -36,21 +36,25 @@ router.get("/all", protect, staffOrAdmin, async (req, res) => {
 });
 
 // POST /api/menu — create new menu item (with optional photo)
-router.post("/", protect, staffOrAdmin, upload.single("photo"), async (req, res) => {
+router.post("/", protect, staffOrAdmin, async (req, res) => {
   try {
-    const { name, description, price, variations, category, isBestSeller, isAvailable } = req.body;
+    const { name, description, price, variations, category, isBestSeller, isAvailable, photo } = req.body;
 
     if (!name || !category) {
       return res.status(400).json({ message: "Name and category are required." });
     }
 
-    // Parse variations from JSON string (FormData sends it as string)
+    // Parse variations from JSON string or use array
     let parsedVariations = [];
     if (variations) {
-      try {
-        parsedVariations = JSON.parse(variations);
-      } catch {
-        return res.status(400).json({ message: "Invalid variations format." });
+      if (typeof variations === "string") {
+        try {
+          parsedVariations = JSON.parse(variations);
+        } catch {
+          return res.status(400).json({ message: "Invalid variations format." });
+        }
+      } else if (Array.isArray(variations)) {
+        parsedVariations = variations;
       }
     }
 
@@ -73,7 +77,7 @@ router.post("/", protect, staffOrAdmin, upload.single("photo"), async (req, res)
       price: parsedVariations.length > 0 ? null : Number(price),
       variations: parsedVariations,
       category,
-      photo: req.file ? req.file.filename : null,
+      photo: photo || null,
       isBestSeller: isBestSeller === "true" || isBestSeller === true,
       isAvailable: isAvailable !== "false" && isAvailable !== false,
     });
@@ -86,19 +90,23 @@ router.post("/", protect, staffOrAdmin, upload.single("photo"), async (req, res)
 });
 
 // PUT /api/menu/:id — update menu item
-router.put("/:id", protect, staffOrAdmin, upload.single("photo"), async (req, res) => {
+router.put("/:id", protect, staffOrAdmin, async (req, res) => {
   try {
-    const { name, description, price, variations, category, isBestSeller, isAvailable } = req.body;
+    const { name, description, price, variations, category, isBestSeller, isAvailable, photo } = req.body;
 
     const item = await MenuItem.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Menu item not found." });
 
     let parsedVariations = item.variations;
     if (variations !== undefined) {
-      try {
-        parsedVariations = JSON.parse(variations);
-      } catch {
-        return res.status(400).json({ message: "Invalid variations format." });
+      if (typeof variations === "string") {
+        try {
+          parsedVariations = JSON.parse(variations);
+        } catch {
+          return res.status(400).json({ message: "Invalid variations format." });
+        }
+      } else if (Array.isArray(variations)) {
+        parsedVariations = variations;
       }
     }
 
@@ -111,8 +119,8 @@ router.put("/:id", protect, staffOrAdmin, upload.single("photo"), async (req, re
       }
     }
 
-    // If new photo uploaded, delete old one
-    if (req.file && item.photo) {
+    // If new photo is provided, and the old photo was a legacy local photo, delete the local file
+    if (photo && item.photo && !item.photo.startsWith("http")) {
       const oldPath = path.join(__dirname, "../uploads", item.photo);
       if (fs.existsSync(oldPath)) fs.unlinkSync(oldPath);
     }
@@ -124,7 +132,7 @@ router.put("/:id", protect, staffOrAdmin, upload.single("photo"), async (req, re
     item.price = parsedVariations.length > 0 ? null : (price !== undefined ? Number(price) : item.price);
     item.isBestSeller = newBestSeller;
     item.isAvailable = isAvailable !== "false" && isAvailable !== false;
-    if (req.file) item.photo = req.file.filename;
+    if (photo !== undefined) item.photo = photo;
 
     await item.save();
     const populated = await item.populate("category", "name");
@@ -140,8 +148,8 @@ router.delete("/:id", protect, staffOrAdmin, async (req, res) => {
     const item = await MenuItem.findById(req.params.id);
     if (!item) return res.status(404).json({ message: "Menu item not found." });
 
-    // Delete photo file if exists
-    if (item.photo) {
+    // Delete photo file if exists locally
+    if (item.photo && !item.photo.startsWith("http")) {
       const filePath = path.join(__dirname, "../uploads", item.photo);
       if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
     }

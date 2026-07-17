@@ -1,14 +1,36 @@
 import { useState, useEffect, useRef } from 'react'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { UPLOADS_URL } from '../../config'
+import { getImageUrl } from '../../config'
 import { Plus, Pencil, Trash2, Star, StarOff, X, ImagePlus, PlusCircle, Minus, Tag, ShieldCheck, Check, AlertCircle } from 'lucide-react'
 
 const EMPTY_FORM = {
   name: '', description: '', price: '', category: '',
   isBestSeller: false, isAvailable: true,
   variations: [], // [{ label, price }]
+  photo: null,
 }
+
+const uploadToCloudinary = async (file) => {
+  const cloudName = import.meta.env.CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = import.meta.env.CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudName || !uploadPreset) {
+    throw new Error('Cloudinary environment variables (CLOUDINARY_CLOUD_NAME and CLOUDINARY_UPLOAD_PRESET) are missing.');
+  }
+
+  const fd = new FormData();
+  fd.append('file', file);
+  fd.append('upload_preset', uploadPreset);
+
+  const res = await axios.post(
+    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+    fd,
+    { headers: { 'Content-Type': 'multipart/form-data' } }
+  );
+
+  return res.data.secure_url;
+};
 
 export default function AdminMenu() {
   const [items, setItems]           = useState([])
@@ -55,8 +77,9 @@ export default function AdminMenu() {
       isBestSeller: item.isBestSeller,
       isAvailable: item.isAvailable,
       variations: item.variations || [],
+      photo: item.photo,
     })
-    setPhotoPreview(item.photo ? `${UPLOADS_URL}/${item.photo}` : null)
+    setPhotoPreview(item.photo ? getImageUrl(item.photo) : null)
     setPhotoFile(null)
     setShowModal(true)
   }
@@ -87,24 +110,37 @@ export default function AdminMenu() {
     }
 
     setSaving(true)
+    let uploadedPhotoUrl = form.photo;
+
+    if (photoFile) {
+      const uploadToastId = toast.loading('Uploading image to Cloudinary...');
+      try {
+        uploadedPhotoUrl = await uploadToCloudinary(photoFile);
+        toast.success('Image uploaded successfully!', { id: uploadToastId });
+      } catch (err) {
+        toast.error(err.message || 'Cloudinary upload failed.', { id: uploadToastId });
+        setSaving(false);
+        return;
+      }
+    }
+
     try {
-      const fd = new FormData()
-      fd.append('name', form.name.trim())
-      fd.append('description', form.description.trim())
-      fd.append('category', form.category)
-      fd.append('isBestSeller', form.isBestSeller)
-      fd.append('isAvailable', form.isAvailable)
-      fd.append('variations', JSON.stringify(
-        form.variations.map(v => ({ label: v.label.trim(), price: Number(v.price) }))
-      ))
-      if (form.variations.length === 0) fd.append('price', form.price)
-      if (photoFile) fd.append('photo', photoFile)
+      const payload = {
+        name: form.name.trim(),
+        description: form.description.trim(),
+        category: form.category,
+        isBestSeller: form.isBestSeller,
+        isAvailable: form.isAvailable,
+        variations: form.variations.map(v => ({ label: v.label.trim(), price: Number(v.price) })),
+        price: form.variations.length === 0 ? Number(form.price) : null,
+        photo: uploadedPhotoUrl,
+      }
 
       if (editId) {
-        await axios.put(`/api/menu/${editId}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+        await axios.put(`/api/menu/${editId}`, payload)
         toast.success('Menu item updated!')
       } else {
-        await axios.post('/api/menu', fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+        await axios.post('/api/menu', payload)
         toast.success('Menu item added!')
       }
       closeModal()
@@ -127,15 +163,17 @@ export default function AdminMenu() {
 
   const toggleBestSeller = async (item) => {
     try {
-      const fd = new FormData()
-      fd.append('name', item.name)
-      fd.append('description', item.description || '')
-      fd.append('category', item.category?._id || item.category)
-      fd.append('isBestSeller', !item.isBestSeller)
-      fd.append('isAvailable', item.isAvailable)
-      fd.append('variations', JSON.stringify(item.variations || []))
-      if (item.variations?.length === 0 && item.price != null) fd.append('price', item.price)
-      await axios.put(`/api/menu/${item._id}`, fd, { headers: { 'Content-Type': 'multipart/form-data' } })
+      const payload = {
+        name: item.name,
+        description: item.description || '',
+        category: item.category?._id || item.category,
+        isBestSeller: !item.isBestSeller,
+        isAvailable: item.isAvailable,
+        variations: item.variations || [],
+        price: item.variations?.length === 0 ? item.price : null,
+        photo: item.photo,
+      }
+      await axios.put(`/api/menu/${item._id}`, payload)
       toast.success(item.isBestSeller ? 'Removed from best sellers.' : 'Marked as best seller!')
       fetchAll()
     } catch (err) {
@@ -190,7 +228,7 @@ export default function AdminMenu() {
                 <div className="flex gap-4">
                   <div className="w-20 h-20 rounded-xl overflow-hidden bg-brand-cream border border-brand-border/40 flex-shrink-0">
                     {item.photo ? (
-                      <img src={`${UPLOADS_URL}/${item.photo}`} alt={item.name} className="w-full h-full object-cover" />
+                      <img src={getImageUrl(item.photo)} alt={item.name} className="w-full h-full object-cover" />
                     ) : (
                       <div className="w-full h-full flex items-center justify-center text-3xl">🍕</div>
                     )}
@@ -267,7 +305,7 @@ export default function AdminMenu() {
                         <div className="flex items-center gap-4">
                           <div className="w-14 h-14 rounded-2xl overflow-hidden bg-brand-cream border border-brand-border/40 flex-shrink-0 shadow-sm">
                             {item.photo ? (
-                              <img src={`${UPLOADS_URL}/${item.photo}`} alt={item.name} className="w-full h-full object-cover" />
+                              <img src={getImageUrl(item.photo)} alt={item.name} className="w-full h-full object-cover" />
                             ) : (
                               <div className="w-full h-full flex items-center justify-center text-3xl">🍕</div>
                             )}
