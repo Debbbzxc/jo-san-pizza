@@ -14,10 +14,6 @@
 
 ---
 
-<img width="1896" height="948" alt="Screenshot (192)" src="https://github.com/user-attachments/assets/33f2a5f4-3063-4a34-a00f-305b0cc5ab26" />
-
----
-
 ## The Story Behind the Slice
 
 **Jo San Pizza** is an authentic Filipino-Chinese pizza restaurant located in the heart of Bambang, Nueva Vizcaya (Tokyo Building, San Fernando Road, Calaocan). 
@@ -46,22 +42,6 @@ The name **"Jo San"** is inspired by the Cantonese Chinese phrase **"早晨" (Jo
 - **Category Control**: Dynamic categorization of food items.
 - **Staff Administration**: Manage permissions, add additional admin accounts, and oversee platform access.
 - **Auto-Seeding Database**: Automatically provisions a default admin account (`admin` / `admin123`) on system launch if no admins exist.
-
----
-
-## Tech Stack
-
-| Layer | Technology | Purpose |
-| :--- | :--- | :--- |
-| **Frontend Core** | [React 18](https://reactjs.org/) + [Vite](https://vitejs.dev/) | High-performance client-side rendering & blazing fast development builds |
-| **Styling** | [Tailwind CSS](https://tailwindcss.com/) | Modern utility-first CSS styling framework |
-| **State & Navigation** | React Context API & React Router DOM | Global authentication context and declarative routing |
-| **API Client** | [Axios](https://axios-http.com/) | Promise-based HTTP client for backend communication |
-| **Toast Notifications** | [React Hot Toast](https://react-hot-toast.com/) | Elegant, customizable responsive micro-alerts |
-| **Backend Framework** | [Express.js](https://expressjs.com/) on [Node.js](https://nodejs.org/) | Scalable, light REST API gateway |
-| **Database** | [MongoDB](https://www.mongodb.com/) & [Mongoose ODM](https://mongoosejs.com/) | Flexible NoSQL document database and schema-based modeling |
-| **File Storage** | [Multer Middleware](https://github.com/expressjs/multer) | Server-side multipart/form-data upload for item photos |
-| **Security** | [JSON Web Tokens (JWT)](https://jwt.io/) & [bcryptjs](https://github.com/dcodeIO/bcrypt.js) | Session verification and strong password hashing |
 
 ---
 
