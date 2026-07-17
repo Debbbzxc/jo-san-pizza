@@ -23,14 +23,23 @@ const uploadToCloudinary = async (file) => {
   fd.append('file', file);
   fd.append('upload_preset', uploadPreset);
 
-  const res = await axios.post(
+  const response = await fetch(
     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-    fd,
-    { headers: { 'Content-Type': 'multipart/form-data' } }
+    {
+      method: 'POST',
+      body: fd,
+    }
   );
 
-  return res.data.secure_url;
+  if (!response.ok) {
+    const errorData = await response.json();
+    throw new Error(errorData.error?.message || 'Cloudinary upload failed.');
+  }
+
+  const data = await response.json();
+  return data.secure_url;
 };
+
 
 export default function AdminMenu() {
   const [items, setItems]           = useState([])
